@@ -32,7 +32,7 @@ class Student
     public function update($ime, $prezime, $email, $telefon)
     {
         $stmt = $this->conn->prepare("UPDATE studenti SET ime=?, prezime=?, email=?, telefon=? WHERE id=?");
-        $stmt->bind_param("sssi", $ime, $prezime, $telefon, $email, $id);
+        $stmt->bind_param("ssssi", $ime, $prezime, $telefon, $email, $id);
         return $stmt->execute();
     }
 
