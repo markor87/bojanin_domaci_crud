@@ -128,15 +128,15 @@ $studenti = $student->read();
                 <?php foreach ($studenti as $student) : ?>
                     <tr>
                         <th scope="row">1</th>
-                        <td><?= $student['id'] ?></td>
-                        <td><?= $student['ime'] ?></td>
-                        <td><?= $student['prezime'] ?></td>
-                        <td><?= $student['email'] ?></td>
-                        <td><?= $student['telefon'] ?></td>
+                        <td data-column="id"><?= $student['id'] ?></td>
+                        <td data-column="ime"><?= $student['ime'] ?></td>
+                        <td data-column="prezime"><?= $student['prezime'] ?></td>
+                        <td data-column="email"><?= $student['email'] ?></td>
+                        <td data-column="telefon"><?= $student['telefon'] ?></td>
                         <td>
                             <!-- CRUD options -->
-<!--                            <button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#readModal">Read-->
-<!--                            </button>-->
+                            <!--                            <button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#readModal">Read-->
+                            <!--                            </button>-->
                             <button class="btn btn-primary btn-sm edit-btn" data-toggle="modal" data-target="#editModal"
                                     data-id="<?php echo $student['id']; ?>"
                                     data-ime="<?php echo $student['ime']; ?>"
@@ -257,10 +257,10 @@ $studenti = $student->read();
                 <form method="post">
                     Are you sure you want to delete this row?
 
-            <div class="modal-footer">
-                <input type="hidden" id="id" name="id">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="submit" class="btn btn-danger" name="delete">Delete</button>
+                    <div class="modal-footer">
+                        <input type="hidden" id="id" name="id">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-danger" name="delete">Delete</button>
                 </form>
             </div>
         </div>
@@ -340,50 +340,33 @@ $studenti = $student->read();
 </script>
 
 <script>
-    function sortTableBy(column) {
-        // Get the table rows
-        var table = document.getElementById("table-body");
-        var rows = table.getElementsByTagName("tr");
 
-        // Create a new, static array and remove the header row
-        var rowArray = [];
-        for (var i = 1; i < rows.length; i++) {
-            rowArray.push(rows[i]);
-
-        }
-
-        // Sort the rows based on the selected column
-        rowArray.sort(function(a, b) {
-            var aValue = a.getElementsByTagName("td")[column].textContent.toLowerCase();
-            var bValue = b.getElementsByTagName("td")[column].textContent.toLowerCase();
-            if (aValue < bValue) {
-                return -1;
-            }
-            if (aValue > bValue) {
-                return 1;
-            }
-            return 0;
+    $(document).ready(function () {
+        $('th[data-sort]').on('click', function () {
+            let column = $(this).data('sort');
+            let table = $(this).closest('table');
+            let tbody = table.find('tbody');
+            let rows = tbody.find('tr').get();
+            let ascending = $(this).hasClass('asc');
+            rows.sort(function (a, b) {
+                let aValue = $(a).find('td[data-column="' + column + '"]').text().toLowerCase();
+                let bValue = $(b).find('td[data-column="' + column + '"]').text().toLowerCase();
+                if (aValue < bValue) {
+                    return ascending ? -1 : 1;
+                }
+                if (aValue > bValue) {
+                    return ascending ? 1 : -1;
+                }
+                return 0;
+            });
+            tbody.empty();
+            $.each(rows, function (index, row) {
+                tbody.append(row);
+            });
+            $(this).toggleClass('asc', !ascending);
+            $(this).toggleClass('desc', ascending);
         });
-
-        // Clear the current table and re-add the sorted rows
-        var tbody = document.getElementById("table-body");
-        tbody.innerHTML = "";
-        rowArray.forEach(function(row) {
-            tbody.appendChild(row);
-        });
-    }
-
-
-    var imeHeader = document.querySelector('th[data-sort="ime"]');
-    var prezimeHeader = document.querySelector('th[data-sort="prezime"]');
-    var emailHeader = document.querySelector('th[data-sort="email"]');
-    var telefonHeader = document.querySelector('th[data-sort="telefon"]');
-    imeHeader.addEventListener("click", function() {
-        sortTableBy(1);
     });
-    prezimeHeader.addEventListener("click",function (){
-        sortTableBy(1);
-    })
 
 
 </script>
