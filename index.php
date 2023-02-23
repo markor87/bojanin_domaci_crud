@@ -115,11 +115,11 @@ $studenti = $student->read();
                 <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Id</th>
-                    <th scope="col">Ime</th>
-                    <th scope="col">Prezime</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Telefon</th>
+                    <th scope="col" data-sort="id">Id</th>
+                    <th scope="col" data-sort="ime">Ime</th>
+                    <th scope="col" data-sort="prezime">Prezime</th>
+                    <th scope="col" data-sort="email">Email</th>
+                    <th scope="col" data-sort="telefon">Telefon</th>
                     <th scope="col">Akcija</th>
                 </tr>
                 </thead>
@@ -336,6 +336,55 @@ $studenti = $student->read();
 
     let searchBtn = document.getElementById("search-btn");
     searchBtn.addEventListener("click", searchTable);
+
+</script>
+
+<script>
+    function sortTableBy(column) {
+        // Get the table rows
+        var table = document.getElementById("table-body");
+        var rows = table.getElementsByTagName("tr");
+
+        // Create a new, static array and remove the header row
+        var rowArray = [];
+        for (var i = 1; i < rows.length; i++) {
+            rowArray.push(rows[i]);
+
+        }
+
+        // Sort the rows based on the selected column
+        rowArray.sort(function(a, b) {
+            var aValue = a.getElementsByTagName("td")[column].textContent.toLowerCase();
+            var bValue = b.getElementsByTagName("td")[column].textContent.toLowerCase();
+            if (aValue < bValue) {
+                return -1;
+            }
+            if (aValue > bValue) {
+                return 1;
+            }
+            return 0;
+        });
+
+        // Clear the current table and re-add the sorted rows
+        var tbody = document.getElementById("table-body");
+        tbody.innerHTML = "";
+        rowArray.forEach(function(row) {
+            tbody.appendChild(row);
+        });
+    }
+
+
+    var imeHeader = document.querySelector('th[data-sort="ime"]');
+    var prezimeHeader = document.querySelector('th[data-sort="prezime"]');
+    var emailHeader = document.querySelector('th[data-sort="email"]');
+    var telefonHeader = document.querySelector('th[data-sort="telefon"]');
+    imeHeader.addEventListener("click", function() {
+        sortTableBy(1);
+    });
+    prezimeHeader.addEventListener("click",function (){
+        sortTableBy(1);
+    })
+
 
 </script>
 
