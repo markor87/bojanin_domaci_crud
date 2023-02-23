@@ -12,9 +12,9 @@ if (isset($_POST['create'])) {
 
 if (isset($_POST['update'])) {
 
-    $student->update($_POST['ime'], $_POST['prezime'], $_POST['email'], $_POST['telefon'],$_POST['id']);
+    $student->update($_POST['ime'], $_POST['prezime'], $_POST['email'], $_POST['telefon'], $_POST['id']);
     header('Location: index.php');
-    }
+}
 
 if (isset($_POST['delete'])) {
     $student->delete($_POST['id']);
@@ -145,7 +145,7 @@ $studenti = $student->read();
                                     data-telefon="<?php echo $student['telefon']; ?>">Edit
                             </button>
                             <button class="btn btn-danger btn-sm delete-btn" data-toggle="modal"
-                                    data-target="#deleteModal">Delete
+                                    data-target="#deleteModal" data-id="<?php echo $student['id']; ?>">Delete
                             </button>
                         </td>
                     </tr>
@@ -286,11 +286,14 @@ $studenti = $student->read();
                 </button>
             </div>
             <div class="modal-body">
-                Are you sure you want to delete this row?
+                <form method="post">
+                    Are you sure you want to delete this row?
             </div>
             <div class="modal-footer">
+                <input type="hidden" id="id" name="id">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-danger">Delete</button>
+                <button type="submit" class="btn btn-danger" name="delete">Delete</button>
+                </form>
             </div>
         </div>
     </div>
