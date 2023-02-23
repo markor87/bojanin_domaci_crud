@@ -1,6 +1,6 @@
 <?php
 //error_reporting(E_ALL);ini_set('display_errors',1);
-//var_dump($_POST);
+//const_dump($_POST);
 require_once('php/classes/Studenti.php');
 
 $student = new Student();
@@ -75,8 +75,8 @@ $studenti = $student->read();
         </ul>
         <!-- Search field in the menu -->
         <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" id="searchInput">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="button" id="search-btn">Search</button>
             <!-- User information with a sign out option -->
             <div class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
@@ -111,7 +111,7 @@ $studenti = $student->read();
             </div>
 
             <!-- Table -->
-            <table class="table table-striped table-bordered">
+            <table class="table table-striped table-bordered" id="studentiTable">
                 <thead>
                 <tr>
                     <th scope="col">#</th>
@@ -123,7 +123,7 @@ $studenti = $student->read();
                     <th scope="col">Akcija</th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody id="table-body">
                 <!-- Table rows -->
                 <?php foreach ($studenti as $student) : ?>
                     <tr>
@@ -135,8 +135,8 @@ $studenti = $student->read();
                         <td><?= $student['telefon'] ?></td>
                         <td>
                             <!-- CRUD options -->
-                            <button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#readModal">Read
-                            </button>
+<!--                            <button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#readModal">Read-->
+<!--                            </button>-->
                             <button class="btn btn-primary btn-sm edit-btn" data-toggle="modal" data-target="#editModal"
                                     data-id="<?php echo $student['id']; ?>"
                                     data-ime="<?php echo $student['ime']; ?>"
@@ -201,39 +201,7 @@ $studenti = $student->read();
         </div>
     </div>
 </div>
-<!-- Read Modal -->
-<div class="modal fade" id="readModal" tabindex="-1" role="dialog" aria-labelledby="readModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="readModalLabel">Read</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <!-- Form for reading a row -->
-                <form>
-                    <div class="form-group">
-                        <label for="readColumn1Input">Column 1</label>
-                        <input type="text" class="form-control" id="readColumn1Input" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="readColumn2Input">Column 2</label>
-                        <input type="text" class="form-control" id="readColumn2Input" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="readColumn3Input">Column 3</label>
-                        <input type="text" class="form-control" id="readColumn3Input" readonly>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
+
 <!-- Edit Modal -->
 <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -288,7 +256,7 @@ $studenti = $student->read();
             <div class="modal-body">
                 <form method="post">
                     Are you sure you want to delete this row?
-            </div>
+
             <div class="modal-footer">
                 <input type="hidden" id="id" name="id">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -317,14 +285,15 @@ $studenti = $student->read();
     // Get the number of rows and update the rowCount element
     document.getElementById('rowCount').innerHTML = rows.length;
 </script>
+
 <script>
     $(document).on("click", ".edit-btn", function () {
 
-        var id = $(this).data('id');
-        var ime = $(this).data('ime');
-        var prezime = $(this).data('prezime');
-        var email = $(this).data('email');
-        var telefon = $(this).data('telefon');
+        const id = $(this).data('id');
+        const ime = $(this).data('ime');
+        const prezime = $(this).data('prezime');
+        const email = $(this).data('email');
+        const telefon = $(this).data('telefon');
         $("#editModal #id").val(id);
         $("#editModal #ime").val(ime);
         $("#editModal #prezime").val(prezime);
@@ -333,9 +302,41 @@ $studenti = $student->read();
     });
 
     $(document).on("click", ".delete-btn", function () {
-        var id = $(this).data('id');
+        const id = $(this).data('id');
         $("#deleteModal #id").val(id);
     });
+</script>
+
+<script>
+    function searchTable() {
+        // Get the input and search button elements
+        let input = document.getElementById("searchInput");
+        let searchBtn = document.getElementById("search-btn");
+
+        // Get the table rows
+        let table = document.getElementById("table-body");
+        let rows = table.getElementsByTagName("tr");
+
+        // Convert the input value to lowercase and remove any leading or trailing spaces
+        let searchValue = input.value.toLowerCase().trim();
+
+        // Loop through the rows of the table and hide any rows that do not match the search term
+        for (let i = 0; i < rows.length; i++) {
+            let ime = rows[i].getElementsByTagName("td")[1].textContent.toLowerCase();
+            let prezime = rows[i].getElementsByTagName("td")[2].textContent.toLowerCase();
+            let email = rows[i].getElementsByTagName("td")[3].textContent.toLowerCase();
+            let telefon = rows[i].getElementsByTagName("td")[4].textContent.toLowerCase();
+            if (ime.includes(searchValue) || prezime.includes(searchValue) || email.includes(searchValue) || telefon.includes(searchValue)) {
+                rows[i].style.display = "";
+            } else {
+                rows[i].style.display = "none";
+            }
+        }
+    }
+
+    let searchBtn = document.getElementById("search-btn");
+    searchBtn.addEventListener("click", searchTable);
+
 </script>
 
 </body>
