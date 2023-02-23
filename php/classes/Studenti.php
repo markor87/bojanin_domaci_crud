@@ -29,10 +29,10 @@ class Student
         return $rows;
     }
 
-    public function update($ime, $prezime, $email, $telefon)
+    public function update($ime, $prezime, $email, $telefon, $id)
     {
         $stmt = $this->conn->prepare("UPDATE studenti SET ime=?, prezime=?, email=?, telefon=? WHERE id=?");
-        $stmt->bind_param("ssssi", $ime, $prezime, $telefon, $email, $id);
+        $stmt->bind_param("ssssi", $ime, $prezime, $email , $telefon, $id);
         return $stmt->execute();
     }
 

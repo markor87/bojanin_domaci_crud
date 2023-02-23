@@ -11,9 +11,10 @@ if (isset($_POST['create'])) {
 }
 
 if (isset($_POST['update'])) {
-    $student->update($_POST['ime'], $_POST['prezime'], $_POST['email'], $_POST['telefon']);
+
+    $student->update($_POST['ime'], $_POST['prezime'], $_POST['email'], $_POST['telefon'],$_POST['id']);
     header('Location: index.php');
-}
+    }
 
 if (isset($_POST['delete'])) {
     $student->delete($_POST['id']);
@@ -56,7 +57,7 @@ $studenti = $student->read();
         }
     </style>
 
-    <title>My CRUD App</title>
+    <title>Fakultet</title>
 </head>
 <body>
 <!-- Navigation menu -->
@@ -136,9 +137,15 @@ $studenti = $student->read();
                             <!-- CRUD options -->
                             <button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#readModal">Read
                             </button>
-                            <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editModal">Edit
+                            <button class="btn btn-primary btn-sm edit-btn" data-toggle="modal" data-target="#editModal"
+                                    data-id="<?php echo $student['id']; ?>"
+                                    data-ime="<?php echo $student['ime']; ?>"
+                                    data-prezime="<?php echo $student['prezime']; ?>"
+                                    data-email="<?php echo $student['email']; ?>"
+                                    data-telefon="<?php echo $student['telefon']; ?>">Edit
                             </button>
-                            <button class="btn btn-danger btn-sm delete-btn" data-toggle="modal" data-target="#deleteModal">Delete
+                            <button class="btn btn-danger btn-sm delete-btn" data-toggle="modal"
+                                    data-target="#deleteModal">Delete
                             </button>
                         </td>
                     </tr>
@@ -177,7 +184,8 @@ $studenti = $student->read();
                     </div>
                     <div class="form-group">
                         <label for="email">Email</label>
-                        <input type="email" class="form-control" id="email" placeholder="Unesite prezime" name="email">
+                        <input type="email" class="form-control" id="email" placeholder="Unesite prezime"
+                               name="email">
                     </div>
                     <div class="form-group">
                         <label for="telefon">Telefon</label>
@@ -190,10 +198,6 @@ $studenti = $student->read();
                     </div>
                 </form>
             </div>
-<!--            <div class="modal-footer">-->
-<!--                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
-<!--                <button type="submit" class="btn btn-primary" id="addStudentBtn" name="create">Save</button>-->
-<!--            </div>-->
         </div>
     </div>
 </div>
@@ -242,28 +246,34 @@ $studenti = $student->read();
             </div>
             <div class="modal-body">
                 <!-- Form for editing a row -->
-                <form>
+                <form method="post">
                     <div class="form-group">
-                        <label for="editColumn1Input">Column 1</label>
-                        <input type="text" class="form-control" id="editColumn1Input">
+                        <input type="hidden" id="id" name="id">
+                        <label for="ime">ime</label>
+                        <input type="text" class="form-control" id="ime" name="ime">
                     </div>
                     <div class="form-group">
-                        <label for="editColumn2Input">Column 2</label>
-                        <input type="text" class="form-control" id="editColumn2Input">
+                        <label for="prezime">prezime</label>
+                        <input type="text" class="form-control" id="prezime" name="prezime">
                     </div>
                     <div class="form-group">
-                        <label for="editColumn3Input">Column 3</label>
-                        <input type="text" class="form-control" id="editColumn3Input">
+                        <label for="email">email</label>
+                        <input type="email" class="form-control" id="email" name="email">
+                    </div>
+                    <div class="form-group">
+                        <label for="telefon">telefon</label>
+                        <input type="text" class="form-control" id="telefon" name="telefon">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" name="update">Save</button>
                     </div>
                 </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save</button>
             </div>
         </div>
     </div>
 </div>
+
 <!-- Delete Modal -->
 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
      aria-hidden="true">
@@ -306,6 +316,7 @@ $studenti = $student->read();
 </script>
 <script>
     $(document).on("click", ".edit-btn", function () {
+
         var id = $(this).data('id');
         var ime = $(this).data('ime');
         var prezime = $(this).data('prezime');
@@ -323,6 +334,7 @@ $studenti = $student->read();
         $("#deleteModal #id").val(id);
     });
 </script>
+
 </body>
 </html>
 
