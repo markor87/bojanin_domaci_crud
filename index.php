@@ -27,7 +27,7 @@ $studenti = $student->read();
 <!doctype html>
 <html lang="en">
 <head>
-    <!-- Required meta tags -->
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -35,14 +35,14 @@ $studenti = $student->read();
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
           integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 
-    <!-- Custom CSS -->
+
     <style>
-        /* Make the table the same width as the monitor */
+
         .table {
             width: 100%;
         }
 
-        /* Make the navbar and fonts more modern */
+
         .navbar {
             font-family: 'Roboto', sans-serif;
             background-color: #333333;
@@ -60,7 +60,7 @@ $studenti = $student->read();
     <title>Fakultet</title>
 </head>
 <body>
-<!-- Navigation menu -->
+<!-- Navigacija -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="#">Fakultet</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
@@ -73,48 +73,46 @@ $studenti = $student->read();
                 <a class="nav-link" href="#">Studenti</a>
             </li>
         </ul>
-        <!-- Search field in the menu -->
+        <!-- Pretraga -->
         <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" id="searchInput">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="button" id="search-btn">Search</button>
-            <!-- User information with a sign out option -->
+            <input class="form-control mr-sm-2" type="search" placeholder="Pretraga" aria-label="Search" id="searchInput">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="button" id="search-btn">Pretraži</button>
+            <!-- Podaci o korisniku -->
             <div class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false">
-                    User Name
+                    Bojana Modrić
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">Profile</a>
-                    <a class="dropdown-item" href="#">Settings</a>
+                    <a class="dropdown-item" href="#">Profil</a>
+                    <a class="dropdown-item" href="#">Podešavanja</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Sign Out</a>
+                    <a class="dropdown-item" href="#">Odjava</a>
                 </div>
             </div>
         </form>
     </div>
 </nav>
-
-<!-- Table with CRUD options -->
 <div class="container mt-5">
     <div class="row">
         <div class="col-12">
-            <!-- Add button above the table -->
+            <!-- Dugme za dodavanje zapisa -->
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <button class="btn btn-primary" data-toggle="modal" data-target="#addModal">Add
+                <button class="btn btn-primary" data-toggle="modal" data-target="#addModal">Dodaj studenta
                 </button>
 
-                <!-- Counter that counts how many rows are in the table -->
+                <!-- Broj redova u tabeli -->
                 <div class="text-right mt-3">
-                    <span>Rows:</span>
+                    <span>Broj zapisa:</span>
                     <span id="rowCount" class="badge badge-secondary">0</span>
                 </div>
             </div>
 
-            <!-- Table -->
+            <!-- Tabela -->
             <table class="table table-striped table-bordered" id="studentiTable">
                 <thead>
                 <tr>
-                    <th scope="col">#</th>
+<!--                    <th scope="col">#</th>-->
                     <th scope="col" data-sort="id">Id</th>
                     <th scope="col" data-sort="ime">Ime</th>
                     <th scope="col" data-sort="prezime">Prezime</th>
@@ -124,28 +122,26 @@ $studenti = $student->read();
                 </tr>
                 </thead>
                 <tbody id="table-body">
-                <!-- Table rows -->
+                <!-- Redovi u tabeli -->
                 <?php foreach ($studenti as $student) : ?>
                     <tr>
-                        <th scope="row">1</th>
+<!--                        <th scope="row">1</th>-->
                         <td data-column="id"><?= $student['id'] ?></td>
                         <td data-column="ime"><?= $student['ime'] ?></td>
                         <td data-column="prezime"><?= $student['prezime'] ?></td>
                         <td data-column="email"><?= $student['email'] ?></td>
                         <td data-column="telefon"><?= $student['telefon'] ?></td>
                         <td>
-                            <!-- CRUD options -->
-                            <!--                            <button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#readModal">Read-->
-                            <!--                            </button>-->
+
                             <button class="btn btn-primary btn-sm edit-btn" data-toggle="modal" data-target="#editModal"
                                     data-id="<?php echo $student['id']; ?>"
                                     data-ime="<?php echo $student['ime']; ?>"
                                     data-prezime="<?php echo $student['prezime']; ?>"
                                     data-email="<?php echo $student['email']; ?>"
-                                    data-telefon="<?php echo $student['telefon']; ?>">Edit
+                                    data-telefon="<?php echo $student['telefon']; ?>">Uredi
                             </button>
                             <button class="btn btn-danger btn-sm delete-btn" data-toggle="modal"
-                                    data-target="#deleteModal" data-id="<?php echo $student['id']; ?>">Delete
+                                    data-target="#deleteModal" data-id="<?php echo $student['id']; ?>">Obriši
                             </button>
                         </td>
                     </tr>
@@ -158,8 +154,6 @@ $studenti = $student->read();
     </div>
 </div>
 
-<!-- Modals for the CRUD options -->
-
 <!-- Add Modal -->
 <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -171,7 +165,7 @@ $studenti = $student->read();
                 </button>
             </div>
             <div class="modal-body">
-                <!-- Form for adding a new row -->
+                <!-- Forma za add modal -->
                 <form method="post">
                     <div class="form-group">
                         <label for="ime">Ime</label>
@@ -184,12 +178,12 @@ $studenti = $student->read();
                     </div>
                     <div class="form-group">
                         <label for="email">Email</label>
-                        <input type="email" class="form-control" id="email" placeholder="Unesite prezime"
+                        <input type="email" class="form-control" id="email" placeholder="Unesite email"
                                name="email">
                     </div>
                     <div class="form-group">
                         <label for="telefon">Telefon</label>
-                        <input type="text" class="form-control" id="telefon" placeholder="Unesite prezime"
+                        <input type="text" class="form-control" id="telefon" placeholder="Unesite telefon"
                                name="telefon">
                     </div>
                     <div class="modal-footer">
@@ -213,7 +207,7 @@ $studenti = $student->read();
                 </button>
             </div>
             <div class="modal-body">
-                <!-- Form for editing a row -->
+                <!-- Forma za edit modal -->
                 <form method="post">
                     <div class="form-group">
                         <input type="hidden" id="id" name="id">
@@ -267,8 +261,6 @@ $studenti = $student->read();
     </div>
 </div>
 
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
         crossorigin="anonymous"></script>
@@ -279,11 +271,10 @@ $studenti = $student->read();
         integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
         crossorigin="anonymous"></script>
 <script>
-    // Select all the rows in the table
-    const rows = document.querySelectorAll('table tbody tr');
 
-    // Get the number of rows and update the rowCount element
+    const rows = document.querySelectorAll('table tbody tr');
     document.getElementById('rowCount').innerHTML = rows.length;
+
 </script>
 
 <script>
@@ -309,31 +300,28 @@ $studenti = $student->read();
 
 <script>
     function searchTable() {
-        // Get the input and search button elements
+
         let input = document.getElementById("searchInput");
         let searchBtn = document.getElementById("search-btn");
 
-        // Get the table rows
         let table = document.getElementById("table-body");
         let rows = table.getElementsByTagName("tr");
 
-        // Convert the input value to lowercase and remove any leading or trailing spaces
         let searchValue = input.value.toLowerCase().trim();
 
-        // Loop through the rows of the table and hide any rows that do not match the search term
         for (let i = 0; i < rows.length; i++) {
+            let id = rows[i].getElementsByTagName("td")[0].textContent.toLowerCase();
             let ime = rows[i].getElementsByTagName("td")[1].textContent.toLowerCase();
             let prezime = rows[i].getElementsByTagName("td")[2].textContent.toLowerCase();
             let email = rows[i].getElementsByTagName("td")[3].textContent.toLowerCase();
             let telefon = rows[i].getElementsByTagName("td")[4].textContent.toLowerCase();
-            if (ime.includes(searchValue) || prezime.includes(searchValue) || email.includes(searchValue) || telefon.includes(searchValue)) {
+            if (ime.includes(searchValue) || prezime.includes(searchValue) || email.includes(searchValue) || telefon.includes(searchValue) || id.includes(searchValue)) {
                 rows[i].style.display = "";
             } else {
                 rows[i].style.display = "none";
             }
         }
     }
-
     let searchBtn = document.getElementById("search-btn");
     searchBtn.addEventListener("click", searchTable);
 
@@ -368,9 +356,7 @@ $studenti = $student->read();
         });
     });
 
-
 </script>
-
 </body>
 </html>
 
